@@ -8,8 +8,8 @@ import matplotlib.pyplot as plt
 def create_pad(image, k_size, value = 0):
     image_padded = value * np.ones((image.shape[0] + 2 * (k_size - int(np.round(k_size / 2))), 
                                     image.shape[1] + 2 * (k_size - int(np.round(k_size / 2)))))
-    image_padded[k_size-int(np.round(k_size / 2)) : image.shape[0]+(k_size-int(np.round(k_size / 2))), 
-                 k_size-int(np.round(k_size / 2)) : image.shape[1] + (k_size - int(np.round(k_size / 2)))] = image
+    image_padded[k_size - int(np.round(k_size / 2)) : image.shape[0] + (k_size - int(np.round(k_size / 2))), 
+                 k_size - int(np.round(k_size / 2)) : image.shape[1] + (k_size - int(np.round(k_size / 2)))] = image
     return image_padded
 
 # The function takes as input the image on which filter must be applied, the number of filters, the kernel_size,
