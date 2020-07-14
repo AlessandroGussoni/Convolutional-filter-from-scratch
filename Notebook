@@ -15,7 +15,7 @@ def create_pad(image, k_size, value = 0):
 # The function takes as input the image on which filter must be applied, the number of filters, the kernel_size,
 # The stripe and a boolean value for pad: if True 'same' pad will be used, otherwise 'valid'
 
-def apply_filters(image, n_filters, k_size, stripe, pad = True):
+def apply_filters(image, n_filters, k_size, stride, pad = True):
     
     if pad:
         image_ = create_pad(image, k_size)    
