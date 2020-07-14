@@ -1,0 +1,52 @@
+import numpy as np
+import math
+import matplotlib.pyplot as plt
+
+
+# This function creates 'same' pad if called. The default value vor padding is zero
+
+def create_pad(image, k_size, value = 0):
+    image_padded = value * np.ones((image.shape[0] + 2 * (k_size - int(np.round(k_size / 2))), 
+                                    image.shape[1] + 2 * (k_size - int(np.round(k_size / 2)))))
+    image_padded[k_size - int(np.round(k_size / 2)) : image.shape[0] + (k_size - int(np.round(k_size / 2))), 
+                 k_size - int(np.round(k_size / 2)) : image.shape[1] + (k_size - int(np.round(k_size / 2)))] = image
+    return image_padded
+
+# The function takes as input the image on which filter must be applied, the number of filters, the kernel_size,
+# The stripe and a boolean value for pad: if True 'same' pad will be used, otherwise 'valid'
+
+def apply_filters(image, n_filters, k_size, stripe, pad = True):
+    
+    if pad:
+        image_ = create_pad(image, k_size)    
+        output = []
+        for n_filter in range(n_filters):
+            filter_ = np.random.rand(k_size, k_size)
+            filter_i = []
+            for row in range(k_size - int(np.round(k_size / 2)), image.shape[0] + k_size - int(np.round(k_size / 2))):
+                row_pixel = []
+                for col in range(k_size - int(np.round(k_size / 2)), image.shape[1] + k_size - int(np.round(k_size / 2))):
+        
+                    pixel = np.dot(image_[row - math.floor(k_size / 2) : row + 1 + math.floor(k_size / 2), 
+                                            col - math.floor(k_size / 2) : col + 1 + math.floor(k_size / 2)].reshape(k_size ** 2,),
+                                   filter_.reshape(k_size ** 2,))
+                    row_pixel.append(pixel)
+                filter_i.append(row_pixel)
+            output.append(filter_i)
+
+    if not pad:
+        output = []
+        for n_filter in range(n_filters):
+            filter_ = np.random.rand(k_size, k_size)
+            filter_i = []
+            for row in range(int(np.floor(k_size / 2)), image.shape[0] - int(np.floor(k_size / 2))):
+                row_pixel = []
+                for col in range(int(np.floor(k_size / 2)), image.shape[0] - int(np.floor(k_size / 2))):
+                    pixel = np.dot(image[row - math.floor(k_size / 2) : row + 1 + math.floor(k_size / 2), 
+                                     col - math.floor(k_size / 2) : col + 1 + math.floor(k_size / 2)].reshape(9,),
+                                   filter_.reshape(9,))
+                    row_pixel.append(pixel)
+                filter_i.append(row_pixel)
+        output.append(filter_i)
+    
+    return np.array(output)
